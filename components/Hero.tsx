@@ -15,7 +15,7 @@ export default function Hero() {
 
       <div>
         <a
-          href="#"
+          href="/start"
           class="block mt-4 text-blue-500 cursor-pointer inline-flex items-center group text-blue-800 bg-white px-8 py-2 rounded-md hover:bg-blue-50 font-bold"
         >
           Get Started{" "}

@@ -1,0 +1,1 @@
+export const GH_CLIENT_SECRET = Deno.env.get("GH_CLIENT_SECRET");
