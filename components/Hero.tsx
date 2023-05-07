@@ -9,7 +9,7 @@ export default function Hero() {
       <div class="space-y-4 text-center">
         <h1 class="text-4xl inline-block font-bold">Easy Pages</h1>
         <p class="text-xl max-w-lg text-blue-100">
-          The Easiest possible workflow to deploy simple, static sites to multiple backends.
+          The easiest possible workflow to deploy simple, static sites to multiple backends.
         </p>
       </div>
 
