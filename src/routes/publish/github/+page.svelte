@@ -1,7 +1,7 @@
-<script>
-	// import { GH_CLIENT_ID } from '../../../config';
-	const props = { data: '', url: new URL('https://example.com') };
-  const GH_CLIENT_ID = '';
+<script lang="ts">
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
 <h1 class="text-4xl text-center font-medium my-8 flex justify-center gap-8 items-center">
@@ -23,12 +23,10 @@
 
 <div class="flex flex-col items-center mt-8">
 	<a
-		href={`https://github.com/login/oauth/authorize?client_id=${GH_CLIENT_ID}&state=${
-			props.data
-		}&scope=public_repo&redirect_uri=${encodeURIComponent(props.url.href)}/callback`}
+		href={`https://github.com/login/oauth/authorize?client_id=${data.GH_CLIENT_ID}&state=${
+			data.state
+		}&scope=public_repo&redirect_uri=${encodeURIComponent(data.href)}/auth_callback`}
 	>
 		<div class="btn btn-outline btn-success">Login to GitHub</div>
-
-    <!-- {GH_CLIENT_ID} -->
 	</a>
 </div>
