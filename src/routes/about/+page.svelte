@@ -18,7 +18,7 @@
 					Netlify, Cloudflare, etc.
 				</p>
 				<p>
-					Easy Pages is also designed to be easily leveraged from website creators such as the <a
+					Easy Pages is also designed to be leveraged from website creators such as the <a
 						href="https://github.com/commune-os/weird"
 						target="_blank">Weird</a
 					> app.

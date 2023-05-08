@@ -17,7 +17,9 @@
 				<p class="py-6">
 					The easiest possible workflow to deploy simple, static sites to multiple backends.
 				</p>
-				<button class="btn btn-primary">Get Started</button>
+				<a href="/start">
+					<button class="btn btn-primary">Get Started</button>
+				</a>
 			</div>
 		</div>
 	</div>
