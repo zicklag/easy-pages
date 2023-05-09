@@ -22,10 +22,11 @@
 </h1>
 
 <div class="flex flex-col items-center mt-8">
-  <p>
-    Configure GitHub...
-  </p>
-  <p>
-    Logged in as {data.login}.
-  </p>
+	<a
+		href={`https://github.com/login/oauth/authorize?client_id=${data.GH_CLIENT_ID}&state=${
+			data.state
+		}&redirect_uri=${encodeURIComponent(data.href)}/auth_callback`}
+	>
+		<div class="btn btn-outline btn-success">Login to GitHub</div>
+	</a>
 </div>

@@ -75,7 +75,7 @@
 					</g></svg
 				>
 			</div>
-			<div class="text-lg">Cloudflare</div>
+			<div class="text-lg">Netlify</div>
 		</div>
 	</div>
 </div>
