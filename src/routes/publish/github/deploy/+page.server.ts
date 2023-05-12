@@ -3,7 +3,14 @@ import { GH_ACCESS_TOKEN_COOKIE_NAME } from 'config';
 import type { Actions } from './$types';
 
 export const load = async ({ cookies, url }) => {
+	const repo = url.searchParams.get('repo');
+	const domain = url.searchParams.get('domain');
 	const access_token = cookies.get(GH_ACCESS_TOKEN_COOKIE_NAME);
+
+	// Make sure the repo is set
+	if (!repo) {
+		throw redirect(303, '/publish/github');
+	}
 
 	// Make sure we have a GitHub access token
 	if (!access_token) {
@@ -29,19 +36,18 @@ export const load = async ({ cookies, url }) => {
 	}
 
 	const user: { login: string; avatar_url: string; name: string } = await userResp.json();
-	return user;
+	return { user, repo, domain };
 };
 
 export const actions = {
 	default: async ({ request, cookies }) => {
 		const data = await request.formData();
-		const repo = data.get('repo');
-		let domain = data.get('domain');
+		const file = data.get('file') as File;
 
-		if (!repo) {
-			return fail(400, { repo, domain, repoErrorMessage: 'Repo must be set' });
+		if (file.size == 0) {
+			return fail(400, { errorMessage: 'You must select a file to deploy.' });
 		}
 
-		throw redirect(303, `/publish/github/deploy?repo=${repo}&domain=${domain}`);
+		return { success: true, errorMessage: null };
 	}
 } satisfies Actions;

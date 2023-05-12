@@ -1,7 +1,12 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type { PageData, ActionData } from './$types';
+	import { enhance } from '$app/forms';
+
+	let repoName = '';
+	let domain = '';
 
 	export let data: PageData;
+	export let form: ActionData;
 </script>
 
 <h1 class="text-4xl text-center font-medium my-8 flex justify-center gap-6 items-center">
@@ -21,11 +26,47 @@
 	</svg>
 </h1>
 
+<div class="flex justify-center">
+	<div class="flex items-center gap-4">
+		<div class="avatar">
+			<div class="w-12 rounded-full">
+				<img alt="User Avatar" src={data.avatar_url} />
+			</div>
+		</div>
+		<h2 class="text-xl">{data.name}</h2>
+	</div>
+</div>
+
 <div class="flex flex-col items-center mt-8">
-  <p>
-    Configure GitHub...
-  </p>
-  <p>
-    Logged in as {data.login}.
-  </p>
+	<form method="post" class="flex flex-col max-w-full" use:enhance>
+		<label class="label" for="repo">
+			<span class="label-text">The repository to deploy to.</span>
+		</label>
+		<input
+			id="repo"
+			type="text"
+			name="repo"
+			placeholder="Repository Name"
+			class="input input-bordered w-full"
+			class:input-error={form?.repoErrorMessage}
+			bind:value={repoName}
+		/>
+		{#if form?.repoErrorMessage}
+			<label class="label" for="repo">
+				<span class="label-text-alt text-error">{form.repoErrorMessage}</span>
+			</label>
+		{/if}
+
+		<label class="label mt-2" for="domain">Domain</label>
+		<input
+			id="repo"
+			type="text"
+			name="domain"
+			placeholder={`${data.login}.github.io/${repoName}`}
+			class="input input-bordered w-full"
+			bind:value={domain}
+		/>
+
+		<button type="submit" class="btn btn-active btn-primary ml-auto mt-6">Next</button>
+	</form>
 </div>
