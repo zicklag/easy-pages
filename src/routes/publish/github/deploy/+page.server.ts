@@ -42,9 +42,9 @@ export const load = async ({ cookies, url }) => {
 export const actions = {
 	default: async ({ request, cookies }) => {
 		const data = await request.formData();
-		const file = data.get('file') as File;
+		const file = data.get('file') as File | undefined;
 
-		if (file.size == 0) {
+		if (!file || file.size == 0) {
 			return fail(400, { errorMessage: 'You must select a file to deploy.' });
 		}
 

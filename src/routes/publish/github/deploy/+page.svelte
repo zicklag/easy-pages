@@ -24,7 +24,7 @@
 </h1>
 
 {#if form?.success}
-	<p class="text-xl text-success text-center">Succesfully deployed!</p>
+	<p class="text-xl text-success text-center">Successfully deployed!</p>
 	<div class="flex justify-center mt-4">
 		<a href="/" class="btn btn-primary max-w-[75px]">Home</a>
 	</div>
@@ -45,7 +45,13 @@
 			<label class="label" for="file">
 				<span class="label-text">Select the zip file to deploy.</span>
 			</label>
-			<input type="file" name="file" class="file-input file-input-bordered" class:file-input-error={form?.errorMessage} />
+			<input
+				type="file"
+				name="file"
+				class="file-input file-input-bordered"
+				class:file-input-error={form?.errorMessage}
+				accept="application/zip,.zip"
+			/>
 			{#if form?.errorMessage}
 				<label class="label" for="file">
 					<span class="label-text-alt text-error">{form?.errorMessage}</span>
