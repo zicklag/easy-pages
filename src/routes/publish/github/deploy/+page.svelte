@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
 	import Spinner from '$components/Spinner.svelte';
@@ -7,6 +8,10 @@
 
 	export let data: PageData;
 	export let form: ActionData;
+
+	const formTransition: typeof fade = (...args) => {
+		return form?.success ? fade(...args) : { duration: 0 };
+	};
 </script>
 
 <h1 class="text-4xl text-center font-medium my-8 flex justify-center gap-6 items-center">
@@ -27,59 +32,63 @@
 </h1>
 
 {#if form?.success}
-	<p class="text-xl text-success text-center">Successfully deployed!</p>
-	<div class="flex justify-center mt-4">
-		<a href="/" class="btn btn-primary max-w-[75px]">Home</a>
-	</div>
-{:else}
-	<div class="flex justify-center">
-		<div class="flex items-center gap-4">
-			<div class="avatar">
-				<div class="w-12 rounded-full">
-					<img alt="User Avatar" src={data.user.avatar_url} />
-				</div>
-			</div>
-			<h2 class="text-xl">{data.user.name} / {data.repo}</h2>
+	<div in:formTransition={{duration: 100, delay: 100}}>
+		<p class="text-xl text-success text-center">Successfully deployed!</p>
+		<div class="flex justify-center mt-4">
+			<a href="/" class="btn btn-primary max-w-[75px]">Home</a>
 		</div>
 	</div>
-
-	<div class="flex flex-col items-center mt-8">
-		<form
-			method="post"
-			class="flex flex-col max-w-full"
-			use:enhance={() => {
-				loading = true;
-				return async ({ result, update }) => {
-					await update();
-					if (result.type == 'error' || result.type == 'failure') {
-						loading = false;
-					}
-				};
-			}}
-		>
-			<label class="label" for="file">
-				<span class="label-text">Select the zip file to deploy.</span>
-			</label>
-			<input
-				type="file"
-				name="file"
-				class="file-input file-input-bordered"
-				class:file-input-error={form?.errorMessage}
-				disabled={loading}
-				accept="application/zip,.zip"
-			/>
-			<label class="label" for="file">
-				<span class="label-text-alt text-error">{form?.errorMessage || ''}&nbsp;</span>
-			</label>
-
-			<div class="flex justify-end items-center mt-4">
-				{#if loading}
-					<Spinner />
-				{/if}
-				<button type="submit" class="btn btn-active btn-primary" disabled={loading}>
-					Deploy
-				</button>
+{:else}
+	<div out:formTransition={{duration: 100}}>
+		<div class="flex justify-center">
+			<div class="flex items-center gap-4">
+				<div class="avatar">
+					<div class="w-12 rounded-full">
+						<img alt="User Avatar" src={data.user.avatar_url} />
+					</div>
+				</div>
+				<h2 class="text-xl">{data.user.name} / {data.repo}</h2>
 			</div>
-		</form>
+		</div>
+
+		<div class="flex flex-col items-center mt-8">
+			<form
+				method="post"
+				class="flex flex-col max-w-full"
+				use:enhance={() => {
+					loading = true;
+					return async ({ result, update }) => {
+						await update();
+						if (result.type == 'error' || result.type == 'failure') {
+							loading = false;
+						}
+					};
+				}}
+			>
+				<label class="label" for="file">
+					<span class="label-text">Select the zip file to deploy.</span>
+				</label>
+				<input
+					type="file"
+					name="file"
+					class="file-input file-input-bordered"
+					class:file-input-error={form?.errorMessage}
+					disabled={loading}
+					accept="application/zip,.zip"
+				/>
+				<label class="label" for="file">
+					<span class="label-text-alt text-error">{form?.errorMessage || ''}&nbsp;</span>
+				</label>
+
+				<div class="flex justify-end items-center mt-4">
+					{#if loading}
+						<Spinner />
+					{/if}
+					<button type="submit" class="btn btn-active btn-primary" disabled={loading}>
+						Deploy
+					</button>
+				</div>
+			</form>
+		</div>
 	</div>
 {/if}

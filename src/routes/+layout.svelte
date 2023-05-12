@@ -1,5 +1,30 @@
-<script>
+<script lang="ts">
+	import type { FadeParams, TransitionConfig } from 'svelte/transition';
+	import { linear } from 'svelte/easing';
 	import '../app.css';
+	import type { PageData } from './$types';
+
+	// Use a custom fade that avoids creating a scrollbar while the pages are loading.
+	const fade2: (n: Node, params?: FadeParams) => TransitionConfig = (_node, params) => {
+		const delay = params?.delay || 0;
+		const fadeDuration = params?.duration || 500;
+		const totalDuration = delay + fadeDuration;
+		return {
+			duration: totalDuration,
+			easing: params?.easing || linear,
+			css: (t) => {
+				const absT = t * totalDuration;
+				const transition = 1 - (totalDuration - absT) / fadeDuration;
+				const ret =
+					absT < delay
+						? 'position: absolute; top: 0; opacity: 0'
+						: `position: relative; opacity: ${transition}`;
+				return ret;
+			}
+		} as TransitionConfig;
+	};
+
+	export let data: PageData;
 </script>
 
 <div class="app">
@@ -14,8 +39,12 @@
 		</div>
 	</div>
 
-	<main>
-		<slot />
+	<main style="overflow-y: auto">
+		{#key data.pathname}
+			<div in:fade2={{ duration: 150, delay: 150 }} out:fade2={{ duration: 150 }}>
+				<slot />
+			</div>
+		{/key}
 	</main>
 
 	<footer>

@@ -66,13 +66,11 @@
 			disabled={loading}
 			bind:value={repoName}
 		/>
-		{#if form?.repoErrorMessage}
 			<label class="label" for="repo">
-				<span class="label-text-alt text-error">{form.repoErrorMessage}</span>
+				<span class="label-text-alt text-error">{form?.repoErrorMessage || ''}&nbsp;</span>
 			</label>
-		{/if}
 
-		<label class="label mt-2" for="domain">Domain</label>
+		<label class="label" for="domain">Domain</label>
 		<input
 			id="repo"
 			type="text"

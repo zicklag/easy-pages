@@ -38,10 +38,6 @@ export const actions = {
 		const repo = data.get('repo');
 		let domain = data.get('domain');
 
-		await new Promise((resolve) => {
-			setTimeout(resolve, 2000);
-		});
-
 		if (!repo) {
 			return fail(400, { repo, domain, repoErrorMessage: 'Repo must be set' });
 		}
