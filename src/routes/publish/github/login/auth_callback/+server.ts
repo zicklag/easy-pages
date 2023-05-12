@@ -4,7 +4,7 @@ import {
 	GH_CLIENT_ID,
 	GH_CLIENT_SECRET,
 	GH_STATE_COOKIE_NAME
-} from 'config';
+} from '$config';
 
 export const GET = async ({ url, cookies }) => {
 	const code = url.searchParams.get('code');

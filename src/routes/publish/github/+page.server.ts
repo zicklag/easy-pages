@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { GH_ACCESS_TOKEN_COOKIE_NAME } from 'config';
+import { GH_ACCESS_TOKEN_COOKIE_NAME } from '$config';
 import type { Actions } from './$types';
 
 export const load = async ({ cookies, url }) => {
@@ -37,6 +37,10 @@ export const actions = {
 		const data = await request.formData();
 		const repo = data.get('repo');
 		let domain = data.get('domain');
+
+		await new Promise((resolve) => {
+			setTimeout(resolve, 2000);
+		});
 
 		if (!repo) {
 			return fail(400, { repo, domain, repoErrorMessage: 'Repo must be set' });

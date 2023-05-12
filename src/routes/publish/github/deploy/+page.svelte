@@ -1,6 +1,9 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
+	import Spinner from '$components/Spinner.svelte';
+
+	let loading = false;
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -41,7 +44,19 @@
 	</div>
 
 	<div class="flex flex-col items-center mt-8">
-		<form method="post" class="flex flex-col max-w-full" use:enhance>
+		<form
+			method="post"
+			class="flex flex-col max-w-full"
+			use:enhance={() => {
+				loading = true;
+				return async ({ result, update }) => {
+					await update();
+					if (result.type == 'error' || result.type == 'failure') {
+						loading = false;
+					}
+				};
+			}}
+		>
 			<label class="label" for="file">
 				<span class="label-text">Select the zip file to deploy.</span>
 			</label>
@@ -50,15 +65,21 @@
 				name="file"
 				class="file-input file-input-bordered"
 				class:file-input-error={form?.errorMessage}
+				disabled={loading}
 				accept="application/zip,.zip"
 			/>
-			{#if form?.errorMessage}
-				<label class="label" for="file">
-					<span class="label-text-alt text-error">{form?.errorMessage}</span>
-				</label>
-			{/if}
+			<label class="label" for="file">
+				<span class="label-text-alt text-error">{form?.errorMessage || ''}&nbsp;</span>
+			</label>
 
-			<button type="submit" class="btn btn-active btn-primary mt-6 ml-auto">Deploy</button>
+			<div class="flex justify-end items-center mt-4">
+				{#if loading}
+					<Spinner />
+				{/if}
+				<button type="submit" class="btn btn-active btn-primary" disabled={loading}>
+					Deploy
+				</button>
+			</div>
 		</form>
 	</div>
 {/if}

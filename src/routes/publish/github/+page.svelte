@@ -1,9 +1,11 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
+	import Spinner from '$components/Spinner.svelte';
 	import { enhance } from '$app/forms';
 
 	let repoName = '';
 	let domain = '';
+	let loading = false;
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -38,7 +40,19 @@
 </div>
 
 <div class="flex flex-col items-center mt-8">
-	<form method="post" class="flex flex-col max-w-full" use:enhance>
+	<form
+		method="post"
+		class="flex flex-col max-w-full"
+		use:enhance={() => {
+			loading = true;
+			return async ({ result, update }) => {
+				await update();
+				if (result.type == 'error' || result.type == 'failure') {
+					loading = false;
+				}
+			};
+		}}
+	>
 		<label class="label" for="repo">
 			<span class="label-text">The repository to deploy to.</span>
 		</label>
@@ -49,6 +63,7 @@
 			placeholder="Repository Name"
 			class="input input-bordered w-full"
 			class:input-error={form?.repoErrorMessage}
+			disabled={loading}
 			bind:value={repoName}
 		/>
 		{#if form?.repoErrorMessage}
@@ -64,9 +79,15 @@
 			name="domain"
 			placeholder={`${data.login}.github.io/${repoName}`}
 			class="input input-bordered w-full"
+			disabled={loading}
 			bind:value={domain}
 		/>
 
-		<button type="submit" class="btn btn-active btn-primary ml-auto mt-6">Next</button>
+		<div class="flex justify-end items-center mt-6">
+			{#if loading}
+				<Spinner />
+			{/if}
+			<button type="submit" class="btn btn-active btn-primary ml" disabled={loading}> Next </button>
+		</div>
 	</form>
 </div>

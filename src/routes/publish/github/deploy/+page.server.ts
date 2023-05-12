@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { GH_ACCESS_TOKEN_COOKIE_NAME } from 'config';
+import { GH_ACCESS_TOKEN_COOKIE_NAME } from '$config';
 import type { Actions } from './$types';
 
 export const load = async ({ cookies, url }) => {

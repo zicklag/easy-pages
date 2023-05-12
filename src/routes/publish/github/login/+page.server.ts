@@ -1,7 +1,7 @@
 export const csr = false;
 
 import { redirect } from '@sveltejs/kit';
-import { GH_ACCESS_TOKEN_COOKIE_NAME, GH_CLIENT_ID, GH_STATE_COOKIE_NAME } from 'config';
+import { GH_ACCESS_TOKEN_COOKIE_NAME, GH_CLIENT_ID, GH_STATE_COOKIE_NAME } from '$config';
 
 export const load = ({ cookies, url }) => {
   if (cookies.get(GH_ACCESS_TOKEN_COOKIE_NAME)) {
