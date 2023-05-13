@@ -66,9 +66,9 @@
 			disabled={loading}
 			bind:value={repoName}
 		/>
-			<label class="label" for="repo">
-				<span class="label-text-alt text-error">{form?.repoErrorMessage || ''}&nbsp;</span>
-			</label>
+		<label class="label" for="repo">
+			<span class="label-text-alt text-error">{form?.repoErrorMessage || ''}&nbsp;</span>
+		</label>
 
 		<label class="label" for="domain">Domain</label>
 		<input
@@ -81,7 +81,9 @@
 			bind:value={domain}
 		/>
 
-		<div class="flex justify-end items-center mt-6">
+		<div class="flex items-center mt-6">
+			<a href="/publish" class="btn">Back</a>
+			<div class="flex-grow" />
 			{#if loading}
 				<Spinner />
 			{/if}
