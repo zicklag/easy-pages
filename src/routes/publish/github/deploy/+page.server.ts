@@ -45,7 +45,6 @@ export const actions = {
 		let domain = data.get('domain') as string | undefined;
 		const octokit = getOctokit(cookies);
 
-
 		if (!repo) {
 			throw error(400, 'Repo not set');
 		}
@@ -178,10 +177,27 @@ export const actions = {
 			sha: commit.data.sha,
 			force: true
 		});
-		await octokit.repos.createDispatchEvent({
-			owner,
-			repo,
-			event_type: 'EasyPages'
+
+		// Wait until we make sure the workflow runs. It might not be available immediately so we have a retry loop
+		await new Promise(async (resolve) => {
+			for (let i = 0; i < 40; i++) {
+				try {
+					await octokit.actions.createWorkflowDispatch({
+						owner,
+						repo,
+						ref: 'refs/heads/' + defaultBranch,
+						workflow_id: 'deploy.yaml'
+					});
+					resolve({});
+					return;
+				} catch {}
+
+				// Wait a short bit before retrying
+				await new Promise((resolve) => {
+					setTimeout(resolve, 250);
+				});
+			}
+			throw "Site deployed, but couldn't trigger workflow";
 		});
 
 		return { success: true, errorMessage: null };
