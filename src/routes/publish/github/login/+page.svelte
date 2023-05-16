@@ -23,7 +23,7 @@
 
 <div class="flex flex-col items-center mt-8">
 	<a
-		href={`https://github.com/login/oauth/authorize?scope=public_repo&client_id=${data.GH_CLIENT_ID}&state=${
+		href={`https://github.com/login/oauth/authorize?scope=public_repo,workflow&client_id=${data.GH_CLIENT_ID}&state=${
 			data.state
 		}&redirect_uri=${encodeURIComponent(data.href)}/auth_callback`}
 	>

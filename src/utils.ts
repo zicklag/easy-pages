@@ -1,5 +1,5 @@
 import { GH_ACCESS_TOKEN_COOKIE_NAME } from '$config';
-import { Octokit } from '@octokit/core';
+import { Octokit } from '@octokit/rest';
 import { redirect, type Cookies } from '@sveltejs/kit';
 import { version } from '$app/environment';
 

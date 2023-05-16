@@ -82,7 +82,7 @@
 				use:enhance={() => {
 					loading = true;
 					return async ({ result, update }) => {
-						await update();
+						await update({ reset: false });
 						if (result.type == 'error' || result.type == 'failure') {
 							loading = false;
 						}

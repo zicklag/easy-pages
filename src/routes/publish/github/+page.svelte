@@ -62,12 +62,12 @@
 			name="repo"
 			placeholder="Repository Name"
 			class="input input-bordered w-full"
-			class:input-error={form?.repoErrorMessage}
+			class:input-error={form?.errorMessage}
 			disabled={loading}
 			bind:value={repoName}
 		/>
 		<label class="label" for="repo">
-			<span class="label-text-alt text-error">{form?.repoErrorMessage || ''}&nbsp;</span>
+			<span class="label-text-alt text-error">{form?.errorMessage || ''}&nbsp;</span>
 		</label>
 
 		<label class="label" for="domain">Domain</label>

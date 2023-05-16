@@ -1,6 +1,3 @@
-<script>
-</script>
-
 <svelte:head>
 	<title>Easy Pages</title>
 	<meta
