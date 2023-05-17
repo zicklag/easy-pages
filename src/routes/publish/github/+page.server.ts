@@ -22,7 +22,7 @@ export const load = async ({ cookies, url }) => {
 };
 
 export const actions = {
-	default: async ({ request, cookies }) => {
+	deploy: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const repo = data.get('repo');
 		let domain = data.get('domain');
@@ -46,7 +46,7 @@ export const actions = {
 					});
 				} catch (e) {
 					return fail(400, {
-						errorMessage: 'Repo exists, but does not appear to have been created by Easy Pages.'
+						errorMessage: 'Repository exists, but does not appear to have been created by Easy Pages.'
 					});
 				}
 			})
@@ -57,5 +57,8 @@ export const actions = {
 		}
 
 		throw redirect(303, `/publish/github/deploy?repo=${repo}&domain=${domain}`);
+	},
+	logout: async ({ cookies, url }) => {
+		cookies.delete(GH_ACCESS_TOKEN_COOKIE_NAME, { domain: url.hostname, secure: true, path: '/' });
 	}
 } satisfies Actions;
