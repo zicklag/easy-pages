@@ -178,7 +178,9 @@ export const actions = {
 			force: true
 		});
 
+
 		// Wait until we make sure the workflow runs. It might not be available immediately so we have a retry loop
+    const after = Date.now();
 		await new Promise(async (resolve) => {
 			for (let i = 0; i < 40; i++) {
 				try {
@@ -200,7 +202,7 @@ export const actions = {
 			throw "Site deployed, but couldn't trigger workflow";
 		});
 
-		return { success: true, errorMessage: null };
+		throw redirect(303, `/publish/github/status?repo=${repo}&after=${after}`);
 	}
 } satisfies Actions;
 

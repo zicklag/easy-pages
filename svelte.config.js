@@ -16,6 +16,7 @@ const config = {
 			'$components': 'src/components',
 			'$config': 'src/config',
       '$utils': 'src/utils',
+      '$clientUtils': 'src/clientUtils',
 		},
 	}
 };
